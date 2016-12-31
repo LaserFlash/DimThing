@@ -13,6 +13,8 @@ namespace DimThing
         private Boolean mode = false;
         private Boolean primaryMonitorAllowed = false;
 
+        KeyboardHook keyHook = new KeyboardHook();
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -22,86 +24,58 @@ namespace DimThing
         {
             InitializeComponent();
 
-            /* Increase Dimness */
-            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Alt, Keys.Add.GetHashCode());
-            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Alt, Keys.Oemplus.GetHashCode());
+            //event to handle hotkeys
+            keyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(keyHook_KeyPressed);
+            //register hotkeys
+            keyHook.RegisterHotKey(1 | 0, Keys.Oemplus, 0); //Increase Dimness    
+            keyHook.RegisterHotKey(1 | 0, Keys.OemMinus, 1); //Decrease Dimness   
+            keyHook.RegisterHotKey(1 | 0, Keys.OemPipe, 2); //Toggle Monitor Mode
 
-            /* Decrease Dimness */
-            RegisterHotKey(this.Handle, 1, (int)KeyModifier.Alt, Keys.Subtract.GetHashCode());
-            RegisterHotKey(this.Handle, 1, (int)KeyModifier.Alt, Keys.OemMinus.GetHashCode());
-
-            /* Toggle monitorMode */
-            RegisterHotKey(this.Handle, 2, (int)KeyModifier.Alt, Keys.OemPipe.GetHashCode());
-
-            this.dimness = Convert.ToSingle(System.Configuration.ConfigurationManager.AppSettings["dimness"]);
-
+            this.dimness = Convert.ToSingle(System.Configuration.ConfigurationManager.AppSettings["dimness"]);           
         }
 
-        enum KeyModifier
-        {
-            None = 0,
-            Alt = 1,
-            Control = 2,
-            Shift = 4,
-            WinKey = 8
-        }
 
-        protected override void WndProc(ref Message m)
+        public void keyHook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            base.WndProc(ref m);
-
-            if (m.Msg == 0x0312)
+            //Increase Percrent of Dimming.
+            if (e.ID == 0)
             {
-                /* Note that the three lines below are not needed if you only want to register one hotkey.
-                 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
+                if (dimness == 99) return;
+                dimness = Math.Min(dimness + 10, 99);
+            }
 
-                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
-                KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
-                int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
-
-                //Increase Percrent of Dimming.
-                if (id == 0)
+            //Decrease Percent of Dimming.
+            if (e.ID == 1)
+            {
+                if (dimness == 0) return;
+                if (dimness == 99)
                 {
-                    if (dimness == 99) return;
-                    dimness = Math.Min(dimness + 10, 99);                    
+                    dimness = 80;
                 }
-
-                //Decrease Percent of Dimming.
-                if(id == 1)
+                else
                 {
-                    if (dimness == 0) return;
-                    if (dimness == 99)
-                    {
-                        dimness = 80;
-                    }
-                    else
-                    {
-                        dimness -= 10;
-                    }                 
+                    dimness -= 10;
                 }
+            }
 
-                //Only allow shortcut if more than one screen present
-                if (id == 2 && primaryMonitorAllowed)
+            //Only allow shortcut if more than one screen present
+            if (e.ID == 2 && primaryMonitorAllowed)
+            {
+                mode = !mode;
+                monitorMode.PerformClick();
+                return;
+            }
+
+            //Choose the Menu Item based on new percent and click.
+            foreach (ToolStripMenuItem item in this.contextMenuStrip1.Items)
+            {
+                if (item.Text.Contains(dimness.ToString()))
                 {
-                    mode = !mode;
-                    monitorMode.PerformClick();
+                    item.PerformClick();
                     return;
                 }
-
-
-                //Choose the Menu Item based on new percent and click.
-                foreach (ToolStripMenuItem item in this.contextMenuStrip1.Items)
-                {
-                    if (item.Text.Contains(dimness.ToString()))
-                    {
-                        item.PerformClick();
-                        return;
-                    }
-                }
-
-
-
             }
+
         }
 
         private void configureOverlays(float dimValue)
@@ -290,9 +264,7 @@ namespace DimThing
                 //Remove tray Icon
                 notifyIcon1.Dispose();
                 //Remove Hotkey Hooks
-                UnregisterHotKey(this.Handle, 0);
-                UnregisterHotKey(this.Handle, 1);
-                UnregisterHotKey(this.Handle, 2);
+                keyHook.Dispose();            
                 //Clean up any used memeory.
                 GC.Collect();
                 //Close the Application.
