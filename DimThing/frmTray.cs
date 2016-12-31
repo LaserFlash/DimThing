@@ -19,8 +19,8 @@ namespace DimThing
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         public frmTray()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
 
             /* Increase Dimness */
             RegisterHotKey(this.Handle, 0, (int)KeyModifier.Alt, Keys.Add.GetHashCode());
@@ -32,6 +32,8 @@ namespace DimThing
 
             /* Toggle monitorMode */
             RegisterHotKey(this.Handle, 2, (int)KeyModifier.Alt, Keys.OemPipe.GetHashCode());
+
+            this.dimness = Convert.ToSingle(System.Configuration.ConfigurationManager.AppSettings["dimness"]);
 
         }
 
@@ -102,7 +104,7 @@ namespace DimThing
             }
         }
 
-        private void configureOverlays(float initialValue)
+        private void configureOverlays(float dimValue)
 		{
 			// remove exiting overlays
 			clearOverlays();
@@ -118,7 +120,7 @@ namespace DimThing
 				foreach (var screen in Screen.AllScreens)
 				{
 					frmMain overlay = new frmMain();
-					overlay.Dimness = 0;
+					overlay.Dimness = this.dimness / 100;
                     overlay.primaryMonitor = screen.Primary;
                     if(!screen.Primary)
                     {
@@ -140,12 +142,12 @@ namespace DimThing
                 {
                     if (!overlay.primaryMonitor)
                     {
-                        overlay.Dimness = initialValue;
+                        overlay.Dimness = dimValue;
                     }
                 }
                 else
                 {
-                    overlay.Dimness = initialValue;
+                    overlay.Dimness = dimValue;
                 }
 		}
 
@@ -184,22 +186,21 @@ namespace DimThing
 			{
 				try
 				{
-					var val = float.Parse(arg) / 99;
+					var val = float.Parse(arg) / 100;
 					if (val > 99 || val < 0) throw new Exception("Out of range");
 					configureOverlays(val);
                     dimness = val;
                 }
 				catch (Exception ex)
 				{
-					MessageBox.Show("Expecting number from 0 to 99 to represent percentage of dimming. 0 means no change, 99 being totally dark." + ex);
+					MessageBox.Show("Expecting number from 0 to 99 to represent percentage of dimming. 0 means normal, 99 being totally dark." + ex);
 					configureOverlays(0);
                     dimness = 0;
 				}
 			}
 			else
 			{
-				configureOverlays(0);
-                dimness = 0;
+				configureOverlays(dimness / 100);
             }
 		}
 

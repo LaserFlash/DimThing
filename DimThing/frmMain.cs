@@ -13,7 +13,7 @@ namespace DimThing
         public System.Drawing.Rectangle Area { get; set; }
 
         private float targetValue;
-        private float currentValue;
+        private float currentValue = 0;
         private Boolean primary;
 
         public float Dimness
