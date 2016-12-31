@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 
 
-namespace DimScreen
+namespace DimThing
 {
 
     public partial class frmMain : Form

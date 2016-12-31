@@ -1,4 +1,4 @@
-namespace DimScreen
+namespace DimThing
 {
     partial class frmMain
     {

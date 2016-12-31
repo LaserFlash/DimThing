@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace DimScreen
+namespace DimThing
 {
 	public partial class frmTray : Form
 	{
@@ -290,5 +290,11 @@ namespace DimScreen
 		{
 			contextMenuStrip1.Show();
 		}
-	}
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            frmSettings settings = new frmSettings();
+            settings.Show();
+        }
+    }
 }
