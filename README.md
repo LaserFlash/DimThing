@@ -20,4 +20,8 @@ Allows you to dim your desktop if its a bit to bright.
   - Mode Toggle
     - Alt + |
 
+## In Development
+- Settings window
+- Saving of settings
+
 [![Build Status](https://travis-ci.org/LaserFlash/DimThing.svg?branch=master)](https://travis-ci.org/LaserFlash/DimThing)
