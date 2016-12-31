@@ -204,30 +204,6 @@ namespace DimThing
             }
 		}
 
-
-		private void menuExit_Click(object sender, EventArgs e)
-		{
-			//Display a Message box asking if the user wishes to exit.
-			DialogResult reply = MessageBox.Show("Are you sure you want to exit?", "Close?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-			//If users answer was yes.
-			if (reply == DialogResult.Yes)
-			{
-                // remove all overlays
-                clearOverlays();
-                //Remove tray Icon
-                notifyIcon1.Dispose();
-                //Remove Hotkey Hooks
-                UnregisterHotKey(this.Handle, 0);
-                UnregisterHotKey(this.Handle, 1);
-                UnregisterHotKey(this.Handle, 2);
-                //Clean up any used memeory.
-                GC.Collect();
-                //Close the Application.
-                this.Dispose();
-			}
-		}
-
 		private void numericMenus_Click(object sender, EventArgs e)
 		{
 			var menuItem = (ToolStripMenuItem)sender;
@@ -280,22 +256,53 @@ namespace DimThing
             }
         }
 
-        private void menuRestart_Click(object sender, EventArgs e)
-		{
-			var exePath = Application.ExecutablePath;
-			System.Diagnostics.Process.Start(exePath, (overlays[0].Dimness * 100).ToString());
-			Application.Exit();
-		}
-
-		private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-		{
-			contextMenuStrip1.Show();
-		}
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            contextMenuStrip1.Show();
+        }
 
         private void settings_Click(object sender, EventArgs e)
         {
             frmSettings settings = new frmSettings();
             settings.Show();
+        }
+
+        private void menuRestart_Click(object sender, EventArgs e)
+		{
+            saveConfig();
+            var exePath = Application.ExecutablePath;
+			System.Diagnostics.Process.Start(exePath, (overlays[0].Dimness * 100).ToString());
+			Application.Exit();
+		}
+
+        private void menuExit_Click(object sender, EventArgs e)
+        {
+            //Display a Message box asking if the user wishes to exit.
+            DialogResult reply = MessageBox.Show("Are you sure you want to exit?", "Close?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            //If users answer was yes.
+            if (reply == DialogResult.Yes)
+            {
+                //Save settings / config
+                saveConfig();
+                // remove all overlays
+                clearOverlays();
+                //Remove tray Icon
+                notifyIcon1.Dispose();
+                //Remove Hotkey Hooks
+                UnregisterHotKey(this.Handle, 0);
+                UnregisterHotKey(this.Handle, 1);
+                UnregisterHotKey(this.Handle, 2);
+                //Clean up any used memeory.
+                GC.Collect();
+                //Close the Application.
+                this.Dispose();
+            }
+        }
+
+        private void saveConfig()
+        {
+            System.Configuration.ConfigurationManager.AppSettings["dimness"] = dimness.ToString();
         }
     }
 }
