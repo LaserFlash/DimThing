@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-
+using System.Collections.Generic;
 using DimThing.Framework;
 using DimThing.Framework.Configuration;
 
@@ -24,6 +24,7 @@ namespace DimThing
 
         #endregion
 
+        private readonly Dictionary<HotKeys, int> _registeredHotkeys = new Dictionary<HotKeys, int>();
 
         /// Represents the window that is used internally to get the messages.        
         private class Window : NativeWindow, IDisposable
@@ -118,14 +119,29 @@ namespace DimThing
         ///     Registers a HotKey in the system.
         /// </summary>
         /// <param name="hotKeys">Represent the hotkey to register</param>
-        public void RegisterHotKey(HotKeys hotKeys)
+        public bool RegisterHotKey(HotKeys hotKeys)
         {
+            if (_registeredHotkeys.ContainsKey(hotKeys)) return false;
+
             _currentId++;
+            _registeredHotkeys.Add(hotKeys, _currentId);
             // register the hot key.
             if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)hotKeys.Modifier, (uint)hotKeys.Keys))
                 throw new InvalidOperationException("Couldn’t register the hot key.");
+
+            return true;
+            
         }
-                
+
+        public bool UnRegisterHotKey(HotKeys hotkey)
+        {
+            int id;
+            if (!_registeredHotkeys.TryGetValue(hotkey, out id)) return false;
+
+            _registeredHotkeys.Remove(hotkey);
+            return NativeMethods.UnregisterHotKey(_window.Handle, id);
+        }
+
         /// A hot key has been pressed.     
         public event EventHandler<KeyPressedEventArgs> KeyPressed;
 
@@ -134,9 +150,9 @@ namespace DimThing
         public void Dispose()
         {
             // unregister all the registered hot keys.
-            for (int i = _currentId; i > 0; i--)
+            foreach (KeyValuePair<HotKeys, int> i in _registeredHotkeys)
             {
-                NativeMethods.UnregisterHotKey(_window.Handle, i);
+                NativeMethods.UnregisterHotKey(_window.Handle, i.Value);
             }
 
             // dispose the inner native window.
@@ -155,17 +171,6 @@ namespace DimThing
         }
 
         public HotKeys HotKeys { get; set; }
-    }
-        
-    /// The enumeration of possible modifiers.    
-    [Flags]
-    public enum ModifierKeys : uint
-    {
-        Alt = 1,
-        Control = 2,
-        Shift = 4,
-        Win = 8,
-        None = 0
     }
 }
 

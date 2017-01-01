@@ -36,7 +36,7 @@ namespace DimThing
 
             this.dimness = Convert.ToSingle(System.Configuration.ConfigurationManager.AppSettings["dimness"]);           
         }
-
+     
 
         public void keyHook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
@@ -275,9 +275,51 @@ namespace DimThing
             }
         }
 
-        private void saveConfig()
+        public bool SetHotKeyCombination(HotKeys hotkeys, String function)
         {
-            System.Configuration.ConfigurationManager.AppSettings["dimness"] = dimness.ToString();
+            HotKeys current = null;
+            switch (function)
+            {
+                case "Increase":
+                    current = AppConfigs.Configuration.IncreaseDimness;
+                    break;
+                case "Decrease":
+                    current = AppConfigs.Configuration.DecreaseDimness;
+                    break;
+                case "Mode":
+                    current = AppConfigs.Configuration.ToggleMode;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(function);
+            }
+
+            keyHook.UnRegisterHotKey(current);
+            if (!keyHook.RegisterHotKey(hotkeys))
+            {
+                new Exception("Can't register HotKey: " + hotkeys);
+                return false;
+            }
+
+            switch (function)
+            {
+                case "Increase":
+                    AppConfigs.Configuration.IncreaseDimness = hotkeys;
+                    break;
+                case "Decrease":
+                    AppConfigs.Configuration.DecreaseDimness = hotkeys;
+                    break;
+                case "Mode":
+                    AppConfigs.Configuration.ToggleMode = hotkeys;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(function);
+            }
+
+            AppConfigs.Configuration.Save();
+            return true;
+              
+
+                
+            }
         }
     }
-}
