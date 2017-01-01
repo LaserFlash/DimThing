@@ -1,20 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+
+using DimThing.Framework;
+using DimThing.Framework.Configuration;
 
 namespace DimThing
 {
     public sealed class KeyboardHook : IDisposable
     {
-        // Registers a hot key with Windows.
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-        // Unregisters the hot key with Windows.
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        #region WindowsNativeMethods
 
-        
+        public static class NativeMethods
+        {
+            // Registers a hot key with Windows.
+            [DllImport("user32.dll")]
+            internal static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+            // Unregisters the hot key with Windows.
+            [DllImport("user32.dll")]
+            internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        }
+
+        #endregion
+
+
         /// Represents the window that is used internally to get the messages.        
         private class Window : NativeWindow, IDisposable
         {
@@ -26,7 +36,23 @@ namespace DimThing
                 this.CreateHandle(new CreateParams());
             }
 
-           
+            /// <summary>
+            ///     To avoid overflow on 64 bit platform use this method
+            /// </summary>
+            /// <param name="lParam"></param>
+            /// <returns></returns>
+            private long ConvertLParam(IntPtr lParam)
+            {
+                try
+                {
+                    return lParam.ToInt32();
+                }
+                catch (OverflowException)
+                {
+                    return lParam.ToInt64();
+                }
+            }
+
             /// Overridden to get the notifications.            
             /// <param name="m"></param>
             protected override void WndProc(ref Message m)
@@ -37,13 +63,12 @@ namespace DimThing
                 if (m.Msg == WM_HOTKEY)
                 {
                     // get the keys.
-                    Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
-                    ModifierKeys modifier = (ModifierKeys)((int)m.LParam & 0xFFFF);
-                    int id = m.WParam.ToInt32();
+                    var key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
+                    var modifier = (HotKeys.ModifierKeys) (ConvertLParam(m.LParam) & 0xFFFF);                  
 
                     // invoke the event to notify the parent.
                     if (KeyPressed != null)
-                        KeyPressed(this, new KeyPressedEventArgs(modifier, key, id));
+                        KeyPressed(this, new KeyPressedEventArgs(new HotKeys(key, modifier)));
                 }
             }
 
@@ -59,6 +84,24 @@ namespace DimThing
             #endregion
         }
 
+        /// <summary>
+        ///     To avoid overflow on 64 bit platform use this method
+        /// </summary>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
+        private long ConvertLParam(IntPtr lParam)
+        {
+            try
+            {
+                return lParam.ToInt32();
+            }
+            catch (OverflowException)
+            {
+                return lParam.ToInt64();
+            }
+        }
+
+
         private Window _window = new Window();
         private int _currentId;
 
@@ -71,15 +114,15 @@ namespace DimThing
                     KeyPressed(this, args);
             };
         }
-
-        /// Registers a hot key in the system        
-        /// <param name="modifier">The modifiers that are associated with the hot key.</param>
-        /// <param name="key">The key itself that is associated with the hot key.</param>
-        public void RegisterHotKey(uint modifier, Keys key, int id)
+        /// <summary>
+        ///     Registers a HotKey in the system.
+        /// </summary>
+        /// <param name="hotKeys">Represent the hotkey to register</param>
+        public void RegisterHotKey(HotKeys hotKeys)
         {
-            _currentId = Math.Max(_currentId, id);
+            _currentId++;
             // register the hot key.
-            if (!RegisterHotKey(_window.Handle, id, modifier, (uint)key))
+            if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)hotKeys.Modifier, (uint)hotKeys.Keys))
                 throw new InvalidOperationException("Couldn’t register the hot key.");
         }
                 
@@ -93,7 +136,7 @@ namespace DimThing
             // unregister all the registered hot keys.
             for (int i = _currentId; i > 0; i--)
             {
-                UnregisterHotKey(_window.Handle, i);
+                NativeMethods.UnregisterHotKey(_window.Handle, i);
             }
 
             // dispose the inner native window.
@@ -106,30 +149,12 @@ namespace DimThing
     /// Event Args for the event that is fired after the hot key has been pressed.    
     public class KeyPressedEventArgs : EventArgs
     {
-        private ModifierKeys _modifier;
-        private Keys _key;
-        private int _id;
-
-        internal KeyPressedEventArgs(ModifierKeys modifier, Keys key, int id)
+        public KeyPressedEventArgs(HotKeys hotKeys)
         {
-            _modifier = modifier;
-            _key = key;
-            _id = id;
+            HotKeys = hotKeys;
         }
 
-        public ModifierKeys Modifier
-        {
-            get { return _modifier; }
-        }
-
-        public Keys Key
-        {
-            get { return _key; }
-        }
-        public int ID
-        {
-            get { return _id; }
-        }
+        public HotKeys HotKeys { get; set; }
     }
         
     /// The enumeration of possible modifiers.    

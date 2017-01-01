@@ -1,5 +1,7 @@
 using System;
 using System.Windows.Forms;
+using DimThing.Framework;
+using DimThing.Framework.Configuration;
 
 namespace DimThing
 {

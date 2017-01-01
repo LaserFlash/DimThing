@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using DimThing.Framework.Configuration;
 
 namespace DimThing
 {
@@ -14,9 +15,9 @@ namespace DimThing
         {
             InitializeComponent();
 
-
-
-            
+            hotkeyTextBoxIncrease.Text = AppConfigs.Configuration.IncreaseDimness.ToString();
+            hotkeyTextBoxDecrease.Text = AppConfigs.Configuration.DecreaseDimness.ToString();
+            hotkeyTextBoxMonitorMode.Text = AppConfigs.Configuration.ToggleMode.ToString();
         }
 
         private void hotkeyTextBoxMonitorMode_TextChanged(object sender, EventArgs e)

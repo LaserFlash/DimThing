@@ -1,6 +1,9 @@
 using System;
 using System.Windows.Forms;
 
+using DimThing.Framework;
+using DimThing.Framework.Configuration;
+
 namespace DimThing
 {
 	public partial class frmTray : Form
@@ -27,9 +30,9 @@ namespace DimThing
             //event to handle hotkeys
             keyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(keyHook_KeyPressed);
             //register hotkeys
-            keyHook.RegisterHotKey(1 | 0, Keys.Oemplus, 0); //Increase Dimness    
-            keyHook.RegisterHotKey(1 | 0, Keys.OemMinus, 1); //Decrease Dimness   
-            keyHook.RegisterHotKey(1 | 0, Keys.OemPipe, 2); //Toggle Monitor Mode
+            keyHook.RegisterHotKey(AppConfigs.Configuration.IncreaseDimness); //Increase Dimness    
+            keyHook.RegisterHotKey(AppConfigs.Configuration.DecreaseDimness); //Decrease Dimness   
+            keyHook.RegisterHotKey(AppConfigs.Configuration.ToggleMode); //Toggle Monitor Mode
 
             this.dimness = Convert.ToSingle(System.Configuration.ConfigurationManager.AppSettings["dimness"]);           
         }
@@ -38,14 +41,14 @@ namespace DimThing
         public void keyHook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
             //Increase Percrent of Dimming.
-            if (e.ID == 0)
+            if (e.HotKeys == AppConfigs.Configuration.IncreaseDimness)
             {
                 if (dimness == 99) return;
                 dimness = Math.Min(dimness + 10, 99);
             }
 
             //Decrease Percent of Dimming.
-            if (e.ID == 1)
+            if (e.HotKeys == AppConfigs.Configuration.DecreaseDimness)
             {
                 if (dimness == 0) return;
                 if (dimness == 99)
@@ -59,7 +62,7 @@ namespace DimThing
             }
 
             //Only allow shortcut if more than one screen present
-            if (e.ID == 2 && primaryMonitorAllowed)
+            if (e.HotKeys == AppConfigs.Configuration.ToggleMode && primaryMonitorAllowed)
             {
                 mode = !mode;
                 monitorMode.PerformClick();
