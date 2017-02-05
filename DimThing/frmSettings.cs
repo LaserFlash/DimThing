@@ -71,7 +71,7 @@ namespace DimThing
             else
             {
                 t.Text = $"{displayString}{key}";
-                t.ForeColor = SetHotKeyCombination(new HotKeys(e.KeyCode, modifierKeys), t.Tag.ToString()) ? Color.Green : Color.Red;
+                t.ForeColor = frmTray.app.SetHotKeyCombination(new HotKeys(e.KeyCode, modifierKeys), t.Tag.ToString()) ? Color.Green : Color.Red;
             }
         }
 

@@ -86,6 +86,7 @@
     <Compile Include="Framework\Configuration\DimThingConfiguration.cs" />
     <Compile Include="Framework\Configuration\IDimThingConfiguration.cs" />
     <Compile Include="Framework\KeyboardWindowsAPI.cs" />
+    <Compile Include="Framework\ValueUpdate.cs" />
     <Compile Include="KeyboardHook.cs" />
     <Compile Include="frmSettings.cs">
       <SubType>Form</SubType>

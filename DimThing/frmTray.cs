@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using DimThing.Framework;
 using DimThing.Framework.Configuration;
@@ -7,134 +8,55 @@ using DimThing.Framework.Configuration;
 namespace DimThing
 {
 	public partial class frmTray : Form
-	{
-		// list of overlays currently displayed
-		private System.Collections.Generic.List<frmMain> overlays = new System.Collections.Generic.List<frmMain>();
-
-		private ToolStripMenuItem lastMenuItem;
-        private float dimness = 0;
-        private Boolean mode = false;
-        private Boolean primaryMonitorAllowed = false;
-
-        KeyboardHook keyHook = new KeyboardHook();
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+	{		
+        private LinkedList<ToolStripMenuItem> dimAmounts;
+        private LinkedListNode<ToolStripMenuItem> currentCheckedDimness;
+        public static App app; 
 
         public frmTray()
         {
             InitializeComponent();
+            dimAmounts = new LinkedList<ToolStripMenuItem>();
+            
+            dimAmounts.AddFirst(menu99);
+            dimAmounts.AddFirst(menu90);
+            dimAmounts.AddFirst(menu80);
+            dimAmounts.AddFirst(menu70);
+            dimAmounts.AddFirst(menu60);
+            dimAmounts.AddFirst(menu50);
+            dimAmounts.AddFirst(menu50);
+            dimAmounts.AddFirst(menu40);
+            dimAmounts.AddFirst(menu30);
+            dimAmounts.AddFirst(menu20);
+            dimAmounts.AddFirst(menu10);
+            dimAmounts.AddFirst(menuNormal);
 
-            //event to handle hotkeys
-            keyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(keyHook_KeyPressed);
-            //register hotkeys
-            keyHook.RegisterHotKey(AppConfigs.Configuration.IncreaseDimness); //Increase Dimness    
-            keyHook.RegisterHotKey(AppConfigs.Configuration.DecreaseDimness); //Decrease Dimness   
-            keyHook.RegisterHotKey(AppConfigs.Configuration.ToggleMode); //Toggle Monitor Mode
+            currentCheckedDimness = dimAmounts.First;
+            currentCheckedDimness.Value.Checked = true;
+            app = new App(this);
 
-            this.dimness = Convert.ToSingle(System.Configuration.ConfigurationManager.AppSettings["dimness"]);           
-        }
-     
+        }        
 
-        public void keyHook_KeyPressed(object sender, KeyPressedEventArgs e)
+        public void increaseDimness()
         {
-            //Increase Percrent of Dimming.
-            if (e.HotKeys == AppConfigs.Configuration.IncreaseDimness)
+            if (currentCheckedDimness == null) return;
+            if (currentCheckedDimness.Next != null)
             {
-                if (dimness == 99) return;
-                dimness = Math.Min(dimness + 10, 99);
+                currentCheckedDimness.Value.Checked = false;
+                currentCheckedDimness = currentCheckedDimness.Next;
+                currentCheckedDimness.Value.Checked = true;             
             }
-
-            //Decrease Percent of Dimming.
-            if (e.HotKeys == AppConfigs.Configuration.DecreaseDimness)
-            {
-                if (dimness == 0) return;
-                if (dimness == 99)
-                {
-                    dimness = 80;
-                }
-                else
-                {
-                    dimness -= 10;
-                }
-            }
-
-            //Only allow shortcut if more than one screen present
-            if (e.HotKeys == AppConfigs.Configuration.ToggleMode && primaryMonitorAllowed)
-            {
-                mode = !mode;
-                monitorMode.PerformClick();
-                return;
-            }
-
-            //Choose the Menu Item based on new percent and click.
-            foreach (ToolStripMenuItem item in this.contextMenuStrip1.Items)
-            {
-                if (item.Text.Contains(dimness.ToString()))
-                {
-                    item.PerformClick();
-                    return;
-                }
-            }
-
         }
 
-        private void configureOverlays(float dimValue)
-		{
-			// remove exiting overlays
-			clearOverlays();
-
-            monitorMode.Visible = false;
-            primaryMonitorAllowed = false;
-            toolStripSeparator2.Visible = false;
-
-			// add screens if they don't already exist
-			if (overlays.Count != Screen.AllScreens.Length)
-			{
-				// apply dimness onto all screens
-				foreach (var screen in Screen.AllScreens)
-				{
-					frmMain overlay = new frmMain();
-					overlay.Dimness = this.dimness / 100;
-                    overlay.primaryMonitor = screen.Primary;
-                    if(!screen.Primary)
-                    {
-                        monitorMode.Visible = true;
-                        primaryMonitorAllowed = true;
-                        toolStripSeparator2.Visible = true;
-                    }
-
-					overlay.Area = screen.Bounds;
-					overlay.Show();
-
-					// add to list of overlays
-					overlays.Add(overlay);
-				}
-			}
-
-            foreach (frmMain overlay in overlays)
-                if (mode)
-                {
-                    if (!overlay.primaryMonitor)
-                    {
-                        overlay.Dimness = dimValue;
-                    }
-                }
-                else
-                {
-                    overlay.Dimness = dimValue;
-                }
-		}
-
-		private void clearOverlays()
-		{
-			foreach (var overlay in overlays)
-                overlay.Dispose();
-
-			overlays.Clear();
-		}
+        public void decreaseDimness()
+        {
+            if(currentCheckedDimness.Previous != null)
+            {
+                currentCheckedDimness.Value.Checked = false;
+                currentCheckedDimness = currentCheckedDimness.Previous;
+                currentCheckedDimness.Value.Checked = true;
+            }
+        }      
 
 
 		private void frmTray_Load(object sender, EventArgs e)
@@ -150,88 +72,28 @@ namespace DimThing
 			menu80.Click += numericMenus_Click;
 			menu90.Click += numericMenus_Click;
 			menu99.Click += numericMenus_Click;
-
-			// get command line values
-			var arg = "";
-			var args = Environment.GetCommandLineArgs();
-			if (args.Length > 1) arg = args[1];
-
-			//TEST: force command line arg to test
-			//arg = "50";
-
-			if (arg != "")
-			{
-				try
-				{
-					var val = float.Parse(arg) / 100;
-					if (val > 99 || val < 0) throw new Exception("Out of range");
-					configureOverlays(val);
-                    dimness = val;
-                }
-				catch (Exception ex)
-				{
-					MessageBox.Show("Expecting number from 0 to 99 to represent percentage of dimming. 0 means normal, 99 being totally dark." + ex);
-					configureOverlays(0);
-                    dimness = 0;
-				}
-			}
-			else
-			{
-				configureOverlays(dimness / 100);
-            }
 		}
 
 		private void numericMenus_Click(object sender, EventArgs e)
 		{
 			var menuItem = (ToolStripMenuItem)sender;
 
-			if (lastMenuItem != null)
-				lastMenuItem.Checked = false;
+			if (currentCheckedDimness.Value != null)
+                currentCheckedDimness.Value.Checked = false;
 
-			menuItem.Checked = true;
-
-			lastMenuItem = menuItem;
+			menuItem.Checked = true;			
+            currentCheckedDimness = dimAmounts.Find(menuItem);
 
 			var value = float.Parse((menuItem.Tag.ToString()));
-
-            dimness = value;
-            foreach (frmMain overlay in overlays)
-                if (mode)
-                {
-                    if (!overlay.primaryMonitor)
-                    {
-                        overlay.Dimness = dimness / 100;
-                    }
-                }
-                else
-                {
-                    overlay.Dimness = dimness / 100;
-                }
-
+            app.changeDimness(value);   
             
 		}
 
         private void monitorMode_click(object sender, EventArgs e)
         {
-            var menuItem = (ToolStripMenuItem)sender;          
-            this.mode = menuItem.Checked;
-            configureMonitorMode(menuItem.Checked, dimness);
-        }
-
-        private void configureMonitorMode(Boolean mode, float initialValue)
-        {
-            foreach (var overlay in overlays)
-            {
-                if (overlay.primaryMonitor)
-                {
-                    if (mode)
-                        overlay.Dimness = 0;
-                    else
-                        overlay.Dimness = dimness / 100;
-                    return;
-                }
-            }
-        }
+            var menuItem = (ToolStripMenuItem)sender;
+            app.toggleImmersiveMode();
+        }  
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -246,10 +108,8 @@ namespace DimThing
 
         private void menuRestart_Click(object sender, EventArgs e)
 		{
-            saveConfig();
             var exePath = Application.ExecutablePath;
-			System.Diagnostics.Process.Start(exePath, (overlays[0].Dimness * 100).ToString());
-			Application.Exit();
+            Application.Restart();
 		}
 
         private void menuExit_Click(object sender, EventArgs e)
@@ -260,66 +120,16 @@ namespace DimThing
             //If users answer was yes.
             if (reply == DialogResult.Yes)
             {
-                //Save settings / config
-                saveConfig();
-                // remove all overlays
-                clearOverlays();
                 //Remove tray Icon
                 notifyIcon1.Dispose();
-                //Remove Hotkey Hooks
-                keyHook.Dispose();            
-                //Clean up any used memeory.
-                GC.Collect();
-                //Close the Application.
-                this.Dispose();
+                app.exit();
             }
-        }
+        }        
 
-        public bool SetHotKeyCombination(HotKeys hotkeys, String function)
+        public void ToggleMode()
         {
-            HotKeys current = null;
-            switch (function)
-            {
-                case "Increase":
-                    current = AppConfigs.Configuration.IncreaseDimness;
-                    break;
-                case "Decrease":
-                    current = AppConfigs.Configuration.DecreaseDimness;
-                    break;
-                case "Mode":
-                    current = AppConfigs.Configuration.ToggleMode;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(function);
-            }
-
-            keyHook.UnRegisterHotKey(current);
-            if (!keyHook.RegisterHotKey(hotkeys))
-            {
-                new Exception("Can't register HotKey: " + hotkeys);
-                return false;
-            }
-
-            switch (function)
-            {
-                case "Increase":
-                    AppConfigs.Configuration.IncreaseDimness = hotkeys;
-                    break;
-                case "Decrease":
-                    AppConfigs.Configuration.DecreaseDimness = hotkeys;
-                    break;
-                case "Mode":
-                    AppConfigs.Configuration.ToggleMode = hotkeys;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(function);
-            }
-
-            AppConfigs.Configuration.Save();
-            return true;
-              
-
-                
-            }
+            immersiveMode.Checked = !immersiveMode.Checked;
+        }
+        
         }
     }

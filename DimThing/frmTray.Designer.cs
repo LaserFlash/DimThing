@@ -44,7 +44,7 @@
             this.menu90 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu99 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.monitorMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.immersiveMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.settings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRestart = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +75,7 @@
             this.menu90,
             this.menu99,
             this.toolStripSeparator1,
-            this.monitorMode,
+            this.immersiveMode,
             this.toolStripSeparator2,
             this.settings,
             this.menuRestart,
@@ -165,14 +165,14 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
             // 
-            // monitorMode
+            // immersiveMode
             // 
-            this.monitorMode.CheckOnClick = true;
-            this.monitorMode.Name = "monitorMode";
-            this.monitorMode.Size = new System.Drawing.Size(176, 22);
-            this.monitorMode.Tag = "1";
-            this.monitorMode.Text = "Monitor Mode";
-            this.monitorMode.Click += new System.EventHandler(this.monitorMode_click);
+            this.immersiveMode.CheckOnClick = true;
+            this.immersiveMode.Name = "immersiveMode";
+            this.immersiveMode.Size = new System.Drawing.Size(176, 22);
+            this.immersiveMode.Tag = "1";
+            this.immersiveMode.Text = "Monitor Mode";
+            this.immersiveMode.Click += new System.EventHandler(this.monitorMode_click);
             // 
             // toolStripSeparator2
             // 
@@ -224,7 +224,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem monitorMode;
+		private System.Windows.Forms.ToolStripMenuItem immersiveMode;
         private System.Windows.Forms.ToolStripMenuItem menuExit;
         private System.Windows.Forms.ToolStripMenuItem menuRestart;
         private System.Windows.Forms.ToolStripMenuItem menuNormal;

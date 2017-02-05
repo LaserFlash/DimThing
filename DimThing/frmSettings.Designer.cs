@@ -110,11 +110,11 @@
             this.hotkeyLableincreaseDim.TabIndex = 0;
             this.hotkeyLableincreaseDim.Text = "Increase Dimness";
             // 
-            // monitorMode
+            // immersiveMode
             // 
             this.monitorMode.Controls.Add(this.monitorModeCheckBox);
             this.monitorMode.Location = new System.Drawing.Point(331, 12);
-            this.monitorMode.Name = "monitorMode";
+            this.monitorMode.Name = "immersiveMode";
             this.monitorMode.Size = new System.Drawing.Size(138, 109);
             this.monitorMode.TabIndex = 1;
             this.monitorMode.TabStop = false;
