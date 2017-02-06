@@ -7,17 +7,18 @@ using DimThing.Framework.Configuration;
 
 namespace DimThing
 {
-	public partial class frmTray : Form
-	{		
+    public partial class frmTray : Form
+    {
         private LinkedList<ToolStripMenuItem> dimAmounts;
         private LinkedListNode<ToolStripMenuItem> currentCheckedDimness;
-        public static App app; 
+
+        public static App app;
 
         public frmTray()
         {
             InitializeComponent();
             dimAmounts = new LinkedList<ToolStripMenuItem>();
-            
+
             dimAmounts.AddFirst(menu99);
             dimAmounts.AddFirst(menu90);
             dimAmounts.AddFirst(menu80);
@@ -35,7 +36,7 @@ namespace DimThing
             currentCheckedDimness.Value.Checked = true;
             app = new App(this);
 
-        }        
+        }
 
         public void increaseDimness()
         {
@@ -44,56 +45,56 @@ namespace DimThing
             {
                 currentCheckedDimness.Value.Checked = false;
                 currentCheckedDimness = currentCheckedDimness.Next;
-                currentCheckedDimness.Value.Checked = true;             
+                currentCheckedDimness.Value.Checked = true;
             }
         }
 
         public void decreaseDimness()
         {
-            if(currentCheckedDimness.Previous != null)
+            if (currentCheckedDimness.Previous != null)
             {
                 currentCheckedDimness.Value.Checked = false;
                 currentCheckedDimness = currentCheckedDimness.Previous;
                 currentCheckedDimness.Value.Checked = true;
             }
-        }      
+        }
 
 
-		private void frmTray_Load(object sender, EventArgs e)
-		{
-			menuNormal.Click += numericMenus_Click;
-			menu10.Click += numericMenus_Click;
-			menu20.Click += numericMenus_Click;
-			menu30.Click += numericMenus_Click;
-			menu40.Click += numericMenus_Click;
-			menu50.Click += numericMenus_Click;
-			menu60.Click += numericMenus_Click;
-			menu70.Click += numericMenus_Click;
-			menu80.Click += numericMenus_Click;
-			menu90.Click += numericMenus_Click;
-			menu99.Click += numericMenus_Click;
-		}
+        private void frmTray_Load(object sender, EventArgs e)
+        {
+            menuNormal.Click += numericMenus_Click;
+            menu10.Click += numericMenus_Click;
+            menu20.Click += numericMenus_Click;
+            menu30.Click += numericMenus_Click;
+            menu40.Click += numericMenus_Click;
+            menu50.Click += numericMenus_Click;
+            menu60.Click += numericMenus_Click;
+            menu70.Click += numericMenus_Click;
+            menu80.Click += numericMenus_Click;
+            menu90.Click += numericMenus_Click;
+            menu99.Click += numericMenus_Click;
+        }
 
-		private void numericMenus_Click(object sender, EventArgs e)
-		{
-			var menuItem = (ToolStripMenuItem)sender;
+        private void numericMenus_Click(object sender, EventArgs e)
+        {
+            var menuItem = (ToolStripMenuItem)sender;
 
-			if (currentCheckedDimness.Value != null)
+            if (currentCheckedDimness.Value != null)
                 currentCheckedDimness.Value.Checked = false;
 
-			menuItem.Checked = true;			
+            menuItem.Checked = true;
             currentCheckedDimness = dimAmounts.Find(menuItem);
 
-			var value = float.Parse((menuItem.Tag.ToString()));
-            app.changeDimness(value);   
-            
-		}
+            var value = float.Parse((menuItem.Tag.ToString()));
+            app.changeDimness(value);
+
+        }
 
         private void monitorMode_click(object sender, EventArgs e)
         {
             var menuItem = (ToolStripMenuItem)sender;
             app.toggleImmersiveMode();
-        }  
+        }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -107,10 +108,15 @@ namespace DimThing
         }
 
         private void menuRestart_Click(object sender, EventArgs e)
-		{
+        {
+            //Save Configuration
+            AppConfigs.Configuration.Dimness = app.getDimness();
+            AppConfigs.Configuration.ImmersiveMode = app.getImmersiveMode();
+            AppConfigs.Configuration.Save();
+
             var exePath = Application.ExecutablePath;
             Application.Restart();
-		}
+        }
 
         private void menuExit_Click(object sender, EventArgs e)
         {
@@ -120,16 +126,21 @@ namespace DimThing
             //If users answer was yes.
             if (reply == DialogResult.Yes)
             {
+                //Save Configuration
+                AppConfigs.Configuration.Dimness = app.getDimness();
+                AppConfigs.Configuration.ImmersiveMode = app.getImmersiveMode();
+                AppConfigs.Configuration.Save();
+
                 //Remove tray Icon
                 notifyIcon1.Dispose();
                 app.exit();
             }
-        }        
+        }
 
         public void ToggleMode()
         {
             immersiveMode.Checked = !immersiveMode.Checked;
         }
-        
-        }
     }
+
+}

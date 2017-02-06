@@ -30,24 +30,24 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.hotkeys = new System.Windows.Forms.GroupBox();
-            this.hotkeyTextBoxMonitorMode = new System.Windows.Forms.TextBox();
-            this.hotkeyLableMonitorMode = new System.Windows.Forms.Label();
+            this.hotkeyTextBoxImmersiveMode = new System.Windows.Forms.TextBox();
+            this.hotkeyLableImmersiveMode = new System.Windows.Forms.Label();
             this.hotkeyTextBoxDecrease = new System.Windows.Forms.TextBox();
             this.hotkeyTextBoxIncrease = new System.Windows.Forms.TextBox();
             this.hotkeyLabledecreaseDim = new System.Windows.Forms.Label();
             this.hotkeyLableincreaseDim = new System.Windows.Forms.Label();
-            this.monitorMode = new System.Windows.Forms.GroupBox();
-            this.monitorModeCheckBox = new System.Windows.Forms.CheckBox();
+            this.immersiveMode = new System.Windows.Forms.GroupBox();
+            this.immersiveModeCheckBox = new System.Windows.Forms.CheckBox();
             this.hotkeys.SuspendLayout();
-            this.monitorMode.SuspendLayout();
+            this.immersiveMode.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotkeys
             // 
             this.hotkeys.AutoSize = true;
             this.hotkeys.BackColor = System.Drawing.SystemColors.Control;
-            this.hotkeys.Controls.Add(this.hotkeyTextBoxMonitorMode);
-            this.hotkeys.Controls.Add(this.hotkeyLableMonitorMode);
+            this.hotkeys.Controls.Add(this.hotkeyTextBoxImmersiveMode);
+            this.hotkeys.Controls.Add(this.hotkeyLableImmersiveMode);
             this.hotkeys.Controls.Add(this.hotkeyTextBoxDecrease);
             this.hotkeys.Controls.Add(this.hotkeyTextBoxIncrease);
             this.hotkeys.Controls.Add(this.hotkeyLabledecreaseDim);
@@ -59,22 +59,22 @@
             this.hotkeys.TabStop = false;
             this.hotkeys.Text = "HotKeys";
             // 
-            // hotkeyTextBoxMonitorMode
+            // hotkeyTextBoxImmersiveMode
             // 
-            this.hotkeyTextBoxMonitorMode.Location = new System.Drawing.Point(109, 69);
-            this.hotkeyTextBoxMonitorMode.Name = "hotkeyTextBoxMonitorMode";
-            this.hotkeyTextBoxMonitorMode.Size = new System.Drawing.Size(198, 20);
-            this.hotkeyTextBoxMonitorMode.TabIndex = 5;
-            this.hotkeyTextBoxMonitorMode.TextChanged += new System.EventHandler(this.hotkeyTextBoxMonitorMode_TextChanged);
+            this.hotkeyTextBoxImmersiveMode.Location = new System.Drawing.Point(109, 69);
+            this.hotkeyTextBoxImmersiveMode.Name = "hotkeyTextBoxImmersiveMode";
+            this.hotkeyTextBoxImmersiveMode.Size = new System.Drawing.Size(198, 20);
+            this.hotkeyTextBoxImmersiveMode.TabIndex = 5;
+            this.hotkeyTextBoxImmersiveMode.TextChanged += new System.EventHandler(this.hotkeyTextBoxImmersiveMode_TextChanged);
             // 
-            // hotkeyLableMonitorMode
+            // hotkeyLableImmersiveMode
             // 
-            this.hotkeyLableMonitorMode.AutoSize = true;
-            this.hotkeyLableMonitorMode.Location = new System.Drawing.Point(7, 76);
-            this.hotkeyLableMonitorMode.Name = "hotkeyLableMonitorMode";
-            this.hotkeyLableMonitorMode.Size = new System.Drawing.Size(72, 13);
-            this.hotkeyLableMonitorMode.TabIndex = 4;
-            this.hotkeyLableMonitorMode.Text = "Monitor Mode";
+            this.hotkeyLableImmersiveMode.AutoSize = true;
+            this.hotkeyLableImmersiveMode.Location = new System.Drawing.Point(7, 76);
+            this.hotkeyLableImmersiveMode.Name = "hotkeyLableImmersiveMode";
+            this.hotkeyLableImmersiveMode.Size = new System.Drawing.Size(72, 13);
+            this.hotkeyLableImmersiveMode.TabIndex = 4;
+            this.hotkeyLableImmersiveMode.Text = "Monitor Mode";
             // 
             // hotkeyTextBoxDecrease
             // 
@@ -112,37 +112,37 @@
             // 
             // immersiveMode
             // 
-            this.monitorMode.Controls.Add(this.monitorModeCheckBox);
-            this.monitorMode.Location = new System.Drawing.Point(331, 12);
-            this.monitorMode.Name = "immersiveMode";
-            this.monitorMode.Size = new System.Drawing.Size(138, 109);
-            this.monitorMode.TabIndex = 1;
-            this.monitorMode.TabStop = false;
-            this.monitorMode.Text = "Monitor Mode";
+            this.immersiveMode.Controls.Add(this.immersiveModeCheckBox);
+            this.immersiveMode.Location = new System.Drawing.Point(331, 12);
+            this.immersiveMode.Name = "immersiveMode";
+            this.immersiveMode.Size = new System.Drawing.Size(138, 109);
+            this.immersiveMode.TabIndex = 1;
+            this.immersiveMode.TabStop = false;
+            this.immersiveMode.Text = "Monitor Mode";
             // 
-            // monitorModeCheckBox
+            // immersiveModeCheckBox
             // 
-            this.monitorModeCheckBox.AutoSize = true;
-            this.monitorModeCheckBox.Location = new System.Drawing.Point(7, 23);
-            this.monitorModeCheckBox.Name = "monitorModeCheckBox";
-            this.monitorModeCheckBox.Size = new System.Drawing.Size(119, 17);
-            this.monitorModeCheckBox.TabIndex = 0;
-            this.monitorModeCheckBox.Text = "Allow Monitor Mode";
-            this.monitorModeCheckBox.UseVisualStyleBackColor = true;
-            this.monitorModeCheckBox.CheckedChanged += new System.EventHandler(this.monitorModeCheckBox_CheckedChanged);
+            this.immersiveModeCheckBox.AutoSize = true;
+            this.immersiveModeCheckBox.Location = new System.Drawing.Point(7, 23);
+            this.immersiveModeCheckBox.Name = "immersiveModeCheckBox";
+            this.immersiveModeCheckBox.Size = new System.Drawing.Size(119, 17);
+            this.immersiveModeCheckBox.TabIndex = 0;
+            this.immersiveModeCheckBox.Text = "Allow Monitor Mode";
+            this.immersiveModeCheckBox.UseVisualStyleBackColor = true;
+            this.immersiveModeCheckBox.CheckedChanged += new System.EventHandler(this.immersiveModeCheckBox_CheckedChanged);
             // 
             // frmSettings
             // 
             this.ClientSize = new System.Drawing.Size(481, 138);
-            this.Controls.Add(this.monitorMode);
+            this.Controls.Add(this.immersiveMode);
             this.Controls.Add(this.hotkeys);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSettings";
             this.Text = "Settings";
             this.hotkeys.ResumeLayout(false);
             this.hotkeys.PerformLayout();
-            this.monitorMode.ResumeLayout(false);
-            this.monitorMode.PerformLayout();
+            this.immersiveMode.ResumeLayout(false);
+            this.immersiveMode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,13 +151,13 @@
         #endregion
 
         private System.Windows.Forms.GroupBox hotkeys;
-        private System.Windows.Forms.GroupBox monitorMode;
+        private System.Windows.Forms.GroupBox immersiveMode;
         private System.Windows.Forms.Label hotkeyLableincreaseDim;
-        private System.Windows.Forms.TextBox hotkeyTextBoxMonitorMode;
-        private System.Windows.Forms.Label hotkeyLableMonitorMode;
+        private System.Windows.Forms.TextBox hotkeyTextBoxImmersiveMode;
+        private System.Windows.Forms.Label hotkeyLableImmersiveMode;
         private System.Windows.Forms.TextBox hotkeyTextBoxDecrease;
         private System.Windows.Forms.TextBox hotkeyTextBoxIncrease;
         private System.Windows.Forms.Label hotkeyLabledecreaseDim;
-        private System.Windows.Forms.CheckBox monitorModeCheckBox;
+        private System.Windows.Forms.CheckBox immersiveModeCheckBox;
     }
 }

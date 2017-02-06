@@ -16,7 +16,7 @@ namespace DimThing
 
         //Current Dimness percent
         private Boolean immersiveModeAllowed;
-        private Boolean immersiveMode = false;
+        private Boolean immersiveMode;
         private float dimness = 0;
         KeyboardHook keyHook = new KeyboardHook();       
 
@@ -32,14 +32,22 @@ namespace DimThing
 
             //Load previous dimness from file
             this.dimness = AppConfigs.Configuration.Dimness;
-
+            this.immersiveMode = AppConfigs.Configuration.ImmersiveMode;
             //Select dimness percent in tray
             for(int i = 0; i < dimness/10; i++)
             {
                 tray.increaseDimness();
             }
 
-            immersiveModeAllowed = Screen.AllScreens.Length > 0;
+            if (AppConfigs.Configuration.FirstRun)
+            {
+                AppConfigs.Configuration.ImmersiveModeAllowed = immersiveModeAllowed = Screen.AllScreens.Length > 0;           
+                AppConfigs.Configuration.FirstRun = false;
+            }
+            else
+            {
+                immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;              
+            }
             configureOverlays();
             updateOverlays();
 
@@ -191,8 +199,7 @@ namespace DimThing
         }
 
         public void exit()
-        {
-            AppConfigs.Configuration.Save();
+        {            
             // remove all overlays
             clearOverlays();
             //Remove Hotkey Hooks
@@ -201,6 +208,26 @@ namespace DimThing
             GC.Collect();
             //Close the Application.            
             Application.Exit();
+        }
+
+        public void immersiveModeAllowedSet(Boolean state)
+        {
+            immersiveModeAllowed = state;
+            if (!state)
+            {
+                immersiveMode = false;
+                updateOverlays();
+            }
+        }
+
+        public float getDimness()
+        {
+            return dimness;
+        }
+
+        public Boolean getImmersiveMode()
+        {
+            return immersiveMode;
         }
     }
 }

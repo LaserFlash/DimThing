@@ -13,22 +13,24 @@ namespace DimThing
 {
     public partial class frmSettings : Form
     {
+        
         public frmSettings()
         {
             InitializeComponent();
 
             hotkeyTextBoxIncrease.KeyDown += (sender, args) => SetHotKey(args,hotkeyTextBoxIncrease);
             hotkeyTextBoxDecrease.KeyDown += (sender, args) => SetHotKey(args, hotkeyTextBoxDecrease);
-            hotkeyTextBoxMonitorMode.KeyDown += (sender, args) => SetHotKey(args, hotkeyTextBoxMonitorMode);
+            hotkeyTextBoxImmersiveMode.KeyDown += (sender, args) => SetHotKey(args, hotkeyTextBoxImmersiveMode);
 
 
             hotkeyTextBoxIncrease.Text = AppConfigs.Configuration.IncreaseDimness.ToString();
             hotkeyTextBoxDecrease.Text = AppConfigs.Configuration.DecreaseDimness.ToString();
-            hotkeyTextBoxMonitorMode.Text = AppConfigs.Configuration.ToggleMode.ToString();
+            hotkeyTextBoxImmersiveMode.Text = AppConfigs.Configuration.ToggleMode.ToString();
+            immersiveModeCheckBox.Checked = AppConfigs.Configuration.ImmersiveModeAllowed;
 
             hotkeyTextBoxIncrease.Tag = "Increase";
             hotkeyTextBoxDecrease.Tag = "Decrease";
-            hotkeyTextBoxMonitorMode.Tag = "Mode";
+            hotkeyTextBoxImmersiveMode.Tag = "Mode";
 
         }
 
@@ -75,7 +77,7 @@ namespace DimThing
             }
         }
 
-        private void hotkeyTextBoxMonitorMode_TextChanged(object sender, EventArgs e)
+        private void hotkeyTextBoxImmersiveMode_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -90,9 +92,11 @@ namespace DimThing
 
         }
 
-        private void monitorModeCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void immersiveModeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-
+            AppConfigs.Configuration.ImmersiveModeAllowed = immersiveModeCheckBox.Checked;
+            frmTray.app.immersiveModeAllowedSet(immersiveModeCheckBox.Checked);
+            
         }
     }
 }

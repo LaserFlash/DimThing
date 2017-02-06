@@ -9,6 +9,8 @@ namespace DimThing.Framework.Configuration
         HotKeys IncreaseDimness { get; set; }
         HotKeys DecreaseDimness { get; set; }
         HotKeys ToggleMode { get; set; }
-        Boolean MonitorMode { get; set; }
+        Boolean ImmersiveMode { get; set; }
+        Boolean ImmersiveModeAllowed { get; set; }
+        Boolean FirstRun { get; set; }
     }
 }
