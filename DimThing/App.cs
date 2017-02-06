@@ -34,7 +34,7 @@ namespace DimThing
             this.dimness = AppConfigs.Configuration.Dimness;
 
             //Select dimness percent in tray
-            for(int i = 0; i <= dimness/10; i++)
+            for(int i = 0; i < dimness/10; i++)
             {
                 tray.increaseDimness();
             }
