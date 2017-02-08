@@ -15,14 +15,14 @@
 AppId={{AE57DCFB-2277-4A39-B49D-50332BE7A1C5}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
 OutputBaseFilename=DimThing_dev-1.5
-SetupIconFile=..\Dim.ico
+SetupIconFile=..\DimThing\Dim.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -33,8 +33,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\Release\DimThing.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\DimThing\bin\Release\DimThing.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\DimThing\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
