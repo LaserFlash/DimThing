@@ -13,9 +13,11 @@ namespace DimThing
 {
     public partial class frmSettings : Form
     {
+        private frmTray tray;
         
-        public frmSettings()
+        public frmSettings(frmTray t)
         {
+            tray = t;
             InitializeComponent();
 
             hotkeyTextBoxIncrease.KeyDown += (sender, args) => SetHotKey(args,hotkeyTextBoxIncrease);
@@ -96,6 +98,7 @@ namespace DimThing
         {
             AppConfigs.Configuration.ImmersiveModeAllowed = immersiveModeCheckBox.Checked;
             frmTray.app.immersiveModeAllowedSet(immersiveModeCheckBox.Checked);
+            tray.ImmersiveModeDisplaySet(immersiveModeCheckBox.Checked);            
             
         }
     }

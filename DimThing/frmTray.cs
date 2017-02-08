@@ -36,6 +36,16 @@ namespace DimThing
             currentCheckedDimness.Value.Checked = true;
             app = new App(this);
 
+            ImmersiveModeDisplaySet(app.ImmersiveModeAllowedSet());
+            
+            
+
+        }
+
+        public void ImmersiveModeDisplaySet(Boolean b)
+        {
+            immersiveMode.Visible = b;
+            toolStripSeparator2.Visible = b;
         }
 
         public void increaseDimness()
@@ -103,7 +113,7 @@ namespace DimThing
 
         private void settings_Click(object sender, EventArgs e)
         {
-            frmSettings settings = new frmSettings();
+            frmSettings settings = new frmSettings(this);
             settings.Show();
         }
 

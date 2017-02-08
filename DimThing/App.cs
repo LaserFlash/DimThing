@@ -41,13 +41,12 @@ namespace DimThing
 
             if (AppConfigs.Configuration.FirstRun)
             {
-                AppConfigs.Configuration.ImmersiveModeAllowed = immersiveModeAllowed = Screen.AllScreens.Length > 0;           
+                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 0;           
                 AppConfigs.Configuration.FirstRun = false;
             }
-            else
-            {
-                immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;              
-            }
+
+            immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;                  
+            
             configureOverlays();
             updateOverlays();
 
@@ -228,6 +227,11 @@ namespace DimThing
         public Boolean getImmersiveMode()
         {
             return immersiveMode;
+        }
+
+        public Boolean ImmersiveModeAllowedSet()
+        {
+            return immersiveModeAllowed;
         }
     }
 }
