@@ -1,7 +1,9 @@
 using System;
 using System.Windows.Forms;
+using DimThing.Framework;
+using DimThing.Framework.Configuration;
 
-namespace DimScreen
+namespace DimThing
 {
     static class Program
     {
@@ -14,6 +16,7 @@ namespace DimScreen
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmTray());
+            
         }
     }
 }

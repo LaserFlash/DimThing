@@ -1,4 +1,4 @@
-﻿namespace DimScreen
+﻿namespace DimThing
 {
     partial class frmTray
     {
@@ -44,8 +44,9 @@
             this.menu90 = new System.Windows.Forms.ToolStripMenuItem();
             this.menu99 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.monitorMode = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.immersiveMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.settings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
@@ -55,7 +56,7 @@
             // 
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "Brightness";
+            this.notifyIcon1.Text = "Dimness";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             // 
@@ -74,120 +75,128 @@
             this.menu90,
             this.menu99,
             this.toolStripSeparator1,
-			this.monitorMode,
-			this.toolStripSeparator2,
+            this.immersiveMode,
+            this.toolStripSeparator2,
+            this.settings,
             this.menuRestart,
             this.menuExit});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(142, 296);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(177, 368);
             // 
             // menuNormal
             // 
             this.menuNormal.Name = "menuNormal";
-            this.menuNormal.Size = new System.Drawing.Size(141, 22);
+            this.menuNormal.Size = new System.Drawing.Size(176, 22);
             this.menuNormal.Tag = "0";
             this.menuNormal.Text = "0% (Normal)";
             // 
             // menu10
             // 
             this.menu10.Name = "menu10";
-            this.menu10.Size = new System.Drawing.Size(141, 22);
+            this.menu10.Size = new System.Drawing.Size(176, 22);
             this.menu10.Tag = "10";
             this.menu10.Text = "10%";
             // 
             // menu20
             // 
             this.menu20.Name = "menu20";
-            this.menu20.Size = new System.Drawing.Size(141, 22);
+            this.menu20.Size = new System.Drawing.Size(176, 22);
             this.menu20.Tag = "20";
             this.menu20.Text = "20%";
             // 
             // menu30
             // 
             this.menu30.Name = "menu30";
-            this.menu30.Size = new System.Drawing.Size(141, 22);
+            this.menu30.Size = new System.Drawing.Size(176, 22);
             this.menu30.Tag = "30";
             this.menu30.Text = "30%";
             // 
             // menu40
             // 
             this.menu40.Name = "menu40";
-            this.menu40.Size = new System.Drawing.Size(141, 22);
+            this.menu40.Size = new System.Drawing.Size(176, 22);
             this.menu40.Tag = "40";
             this.menu40.Text = "40%";
             // 
             // menu50
             // 
             this.menu50.Name = "menu50";
-            this.menu50.Size = new System.Drawing.Size(141, 22);
+            this.menu50.Size = new System.Drawing.Size(176, 22);
             this.menu50.Tag = "50";
             this.menu50.Text = "50%";
             // 
             // menu60
             // 
             this.menu60.Name = "menu60";
-            this.menu60.Size = new System.Drawing.Size(141, 22);
+            this.menu60.Size = new System.Drawing.Size(176, 22);
             this.menu60.Tag = "60";
             this.menu60.Text = "60%";
             // 
             // menu70
             // 
             this.menu70.Name = "menu70";
-            this.menu70.Size = new System.Drawing.Size(141, 22);
+            this.menu70.Size = new System.Drawing.Size(176, 22);
             this.menu70.Tag = "70";
             this.menu70.Text = "70%";
             // 
             // menu80
             // 
             this.menu80.Name = "menu80";
-            this.menu80.Size = new System.Drawing.Size(141, 22);
+            this.menu80.Size = new System.Drawing.Size(176, 22);
             this.menu80.Tag = "80";
             this.menu80.Text = "80%";
             // 
             // menu90
             // 
             this.menu90.Name = "menu90";
-            this.menu90.Size = new System.Drawing.Size(141, 22);
+            this.menu90.Size = new System.Drawing.Size(176, 22);
             this.menu90.Tag = "90";
             this.menu90.Text = "90%";
             // 
             // menu99
             // 
             this.menu99.Name = "menu99";
-            this.menu99.Size = new System.Drawing.Size(141, 22);
+            this.menu99.Size = new System.Drawing.Size(176, 22);
             this.menu99.Tag = "99";
             this.menu99.Text = "99% (Almost Black)";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
             // 
-            // monitorMode
+            // immersiveMode
             // 
-			this.monitorMode.Name = "monitorMode";
-            this.monitorMode.Size = new System.Drawing.Size(141, 22);
-            this.monitorMode.Tag = "1";
-            this.monitorMode.Text = "Monitor Mode";
-            this.monitorMode.Click += new System.EventHandler(this.monitorMode_click);
-            this.monitorMode.CheckOnClick = true;
+            this.immersiveMode.CheckOnClick = true;
+            this.immersiveMode.Name = "immersiveMode";
+            this.immersiveMode.Size = new System.Drawing.Size(176, 22);
+            this.immersiveMode.Tag = "1";
+            this.immersiveMode.Text = "Monitor Mode";
+            this.immersiveMode.Click += new System.EventHandler(this.monitorMode_click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(138, 6);
-			// 
-			// menuRestart
-			// 
-			this.menuRestart.Name = "menuRestart";
-            this.menuRestart.Size = new System.Drawing.Size(141, 22);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(173, 6);
+            // 
+            // settings
+            // 
+            this.settings.Name = "settings";
+            this.settings.Size = new System.Drawing.Size(176, 22);
+            this.settings.Text = "Settings";
+            this.settings.Click += new System.EventHandler(this.settings_Click);
+            // 
+            // menuRestart
+            // 
+            this.menuRestart.Name = "menuRestart";
+            this.menuRestart.Size = new System.Drawing.Size(176, 22);
             this.menuRestart.Text = "Restart";
             this.menuRestart.Click += new System.EventHandler(this.menuRestart_Click);
             // 
             // menuExit
             // 
             this.menuExit.Name = "menuExit";
-            this.menuExit.Size = new System.Drawing.Size(141, 22);
+            this.menuExit.Size = new System.Drawing.Size(176, 22);
             this.menuExit.Text = "Exit";
             this.menuExit.Click += new System.EventHandler(this.menuExit_Click);
             // 
@@ -195,7 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(116, 56);
+            this.ClientSize = new System.Drawing.Size(120, 56);
             this.ControlBox = false;
             this.Name = "frmTray";
             this.Opacity = 0D;
@@ -215,7 +224,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem monitorMode;
+		private System.Windows.Forms.ToolStripMenuItem immersiveMode;
         private System.Windows.Forms.ToolStripMenuItem menuExit;
         private System.Windows.Forms.ToolStripMenuItem menuRestart;
         private System.Windows.Forms.ToolStripMenuItem menuNormal;
@@ -229,5 +238,6 @@
         private System.Windows.Forms.ToolStripMenuItem menu80;
         private System.Windows.Forms.ToolStripMenuItem menu90;
         private System.Windows.Forms.ToolStripMenuItem menu99;
+        private System.Windows.Forms.ToolStripMenuItem settings;
     }
 }

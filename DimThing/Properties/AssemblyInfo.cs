@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle ("DimScreen")]
+[assembly: AssemblyTitle("DimThing")]
 [assembly: AssemblyDescription ("Allows you to dim your desktop if its a bit to bright.")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
-[assembly: AssemblyProduct ("DimScreen")]
-[assembly: AssemblyCopyright ("Copyright © 2012")]
+[assembly: AssemblyProduct("DimThing")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
