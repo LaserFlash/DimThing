@@ -41,7 +41,7 @@ namespace DimThing
 
             if (AppConfigs.Configuration.FirstRun)
             {
-                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 0;           
+                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 1;           
                 AppConfigs.Configuration.FirstRun = false;
             }
 
