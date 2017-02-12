@@ -1,6 +1,7 @@
 [bB]in
 [oO]bj
 [oO]utput
+.vs
 _ReSharper.*
 *.suo
 *.ReSharper.*
