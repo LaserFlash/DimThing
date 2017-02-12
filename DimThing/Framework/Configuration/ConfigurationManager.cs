@@ -69,6 +69,10 @@ namespace DimThing.Framework.Configuration
         public static void SaveConfiguration<T>(T configuration) where T : IConfiguration, new()
         {
             configuration.FileLocation = null;
+            if (!Directory.Exists(SRoot))
+            {
+                Directory.CreateDirectory(SRoot);
+            }                   
             var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
             using (var writer = new JsonTextWriter(new StreamWriter(GetFilePath<T>())))
             {

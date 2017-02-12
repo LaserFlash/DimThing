@@ -33,19 +33,21 @@ namespace DimThing
             //Load previous dimness from file
             this.dimness = AppConfigs.Configuration.Dimness;
             this.immersiveMode = AppConfigs.Configuration.ImmersiveMode;
-            //Select dimness percent in tray
-            for(int i = 0; i < dimness/10; i++)
-            {
-                tray.increaseDimness();
-            }
+            this.immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;
 
             if (AppConfigs.Configuration.FirstRun)
             {
-                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 1;           
+                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 1;
                 AppConfigs.Configuration.FirstRun = false;
             }
 
-            immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;                  
+            //Select dimness percent in tray
+            for (int i = 0; i < dimness; i+= 10)
+            {
+                tray.increaseDimness();                
+            }
+
+            tray.ImmersiveModeCheck(immersiveMode);                            
             
             configureOverlays();
             updateOverlays();

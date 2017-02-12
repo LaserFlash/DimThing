@@ -15,8 +15,7 @@ namespace DimThing
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTray());
-            
+            Application.Run(new frmTray());            
         }
     }
 }
