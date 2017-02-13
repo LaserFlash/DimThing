@@ -38,8 +38,12 @@
             this.hotkeyLableincreaseDim = new System.Windows.Forms.Label();
             this.immersiveMode = new System.Windows.Forms.GroupBox();
             this.immersiveModeCheckBox = new System.Windows.Forms.CheckBox();
+            this.startup = new System.Windows.Forms.GroupBox();
+            this.runStartup = new System.Windows.Forms.CheckBox();
+            this.loadPrevious = new System.Windows.Forms.CheckBox();
             this.hotkeys.SuspendLayout();
             this.immersiveMode.SuspendLayout();
+            this.startup.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotkeys
@@ -131,9 +135,43 @@
             this.immersiveModeCheckBox.UseVisualStyleBackColor = true;
             this.immersiveModeCheckBox.CheckedChanged += new System.EventHandler(this.immersiveModeCheckBox_CheckedChanged);
             // 
+            // startup
+            // 
+            this.startup.Controls.Add(this.loadPrevious);
+            this.startup.Controls.Add(this.runStartup);
+            this.startup.Location = new System.Drawing.Point(13, 128);
+            this.startup.Name = "startup";
+            this.startup.Size = new System.Drawing.Size(312, 65);
+            this.startup.TabIndex = 2;
+            this.startup.TabStop = false;
+            this.startup.Text = "Start Up";
+            // 
+            // runStartup
+            // 
+            this.runStartup.AutoSize = true;
+            this.runStartup.Location = new System.Drawing.Point(9, 20);
+            this.runStartup.Name = "runStartup";
+            this.runStartup.Size = new System.Drawing.Size(100, 17);
+            this.runStartup.TabIndex = 0;
+            this.runStartup.Text = "Run at Start Up";
+            this.runStartup.UseVisualStyleBackColor = true;
+            this.runStartup.CheckedChanged += new System.EventHandler(this.runStartup_CheckedChanged);
+            // 
+            // loadPrevious
+            // 
+            this.loadPrevious.AutoSize = true;
+            this.loadPrevious.Location = new System.Drawing.Point(9, 44);
+            this.loadPrevious.Name = "loadPrevious";
+            this.loadPrevious.Size = new System.Drawing.Size(122, 17);
+            this.loadPrevious.TabIndex = 1;
+            this.loadPrevious.Text = "Load Previous State";
+            this.loadPrevious.UseVisualStyleBackColor = true;
+            this.loadPrevious.CheckedChanged += new System.EventHandler(this.loadPrevious_CheckedChanged);
+            // 
             // frmSettings
             // 
-            this.ClientSize = new System.Drawing.Size(481, 138);
+            this.ClientSize = new System.Drawing.Size(481, 203);
+            this.Controls.Add(this.startup);
             this.Controls.Add(this.immersiveMode);
             this.Controls.Add(this.hotkeys);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -143,6 +181,8 @@
             this.hotkeys.PerformLayout();
             this.immersiveMode.ResumeLayout(false);
             this.immersiveMode.PerformLayout();
+            this.startup.ResumeLayout(false);
+            this.startup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -159,5 +199,8 @@
         private System.Windows.Forms.TextBox hotkeyTextBoxIncrease;
         private System.Windows.Forms.Label hotkeyLabledecreaseDim;
         private System.Windows.Forms.CheckBox immersiveModeCheckBox;
+        private System.Windows.Forms.GroupBox startup;
+        private System.Windows.Forms.CheckBox loadPrevious;
+        private System.Windows.Forms.CheckBox runStartup;
     }
 }
