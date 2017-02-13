@@ -29,6 +29,8 @@ namespace DimThing
             hotkeyTextBoxDecrease.Text = AppConfigs.Configuration.DecreaseDimness.ToString();
             hotkeyTextBoxImmersiveMode.Text = AppConfigs.Configuration.ToggleMode.ToString();
             immersiveModeCheckBox.Checked = AppConfigs.Configuration.ImmersiveModeAllowed;
+            runStartup.Checked = AppConfigs.Configuration.RunAtStart;
+            loadPrevious.Checked = AppConfigs.Configuration.LoadAtStart;
 
             hotkeyTextBoxIncrease.Tag = "Increase";
             hotkeyTextBoxDecrease.Tag = "Decrease";
@@ -100,6 +102,24 @@ namespace DimThing
             frmTray.app.immersiveModeAllowedSet(immersiveModeCheckBox.Checked);
             tray.ImmersiveModeDisplaySet(immersiveModeCheckBox.Checked);            
             
+        }
+
+        private void loadPrevious_CheckedChanged(object sender, EventArgs e)
+        {
+            AppConfigs.Configuration.LoadAtStart = loadPrevious.Checked;
+        }
+
+        private void runStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            AppConfigs.Configuration.RunAtStart = runStartup.Checked;
+
+            if (runStartup.Checked)
+            {
+                App.AddApplicationToStartup();
+            }else
+            {
+                App.RemoveApplicationFromStartup();
+            }
         }
     }
 }

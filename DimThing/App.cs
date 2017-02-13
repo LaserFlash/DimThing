@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using DimThing.Framework;
 using DimThing.Framework.Configuration;
+using Microsoft.Win32;
 
 namespace DimThing
 {
@@ -29,10 +30,7 @@ namespace DimThing
             keyHook.RegisterHotKey(AppConfigs.Configuration.IncreaseDimness); //Increase Dimness    
             keyHook.RegisterHotKey(AppConfigs.Configuration.DecreaseDimness); //Decrease Dimness   
             keyHook.RegisterHotKey(AppConfigs.Configuration.ToggleMode); //Toggle Monitor Mode
-
-            //Load previous dimness from file
-            this.dimness = AppConfigs.Configuration.Dimness;
-            this.immersiveMode = AppConfigs.Configuration.ImmersiveMode;
+            
             //Select dimness percent in tray
             for(int i = 0; i < dimness/10; i++)
             {
@@ -43,13 +41,24 @@ namespace DimThing
             {
                 AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 1;           
                 AppConfigs.Configuration.FirstRun = false;
+                AddApplicationToStartup();
             }
 
-            immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;                  
-            
+            if (AppConfigs.Configuration.LoadAtStart)
+            {
+                //Load previous dimness from file
+                this.dimness = AppConfigs.Configuration.Dimness;
+                this.immersiveMode = AppConfigs.Configuration.ImmersiveMode;
+            }
+            else
+            {
+                this.dimness = 0;
+                this.immersiveMode = false;
+            }
+
+            immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;               
             configureOverlays();
             updateOverlays();
-
         }        
 
         public void changeDimness(float val)
@@ -232,6 +241,23 @@ namespace DimThing
         public Boolean ImmersiveModeAllowedSet()
         {
             return immersiveModeAllowed;
+        }
+
+        
+        public static void RemoveApplicationFromStartup()
+        {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+            {
+                key.DeleteValue("DimThing", false);
+            }
+        }
+
+        public static void AddApplicationToStartup()
+        {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+            {
+                key.SetValue("DimThing", Application.ExecutablePath);
+            }
         }
     }
 }

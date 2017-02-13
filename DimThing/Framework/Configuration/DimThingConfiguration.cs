@@ -15,6 +15,8 @@ namespace DimThing.Framework.Configuration
             ImmersiveMode = false;
             ImmersiveModeAllowed = false;
             FirstRun = true;
+            RunAtStart = true;
+            LoadAtStart = true;
         }
 
         public float Dimness { get; set; }
@@ -24,6 +26,8 @@ namespace DimThing.Framework.Configuration
         public Boolean ImmersiveMode { get; set; }
         public Boolean ImmersiveModeAllowed { get; set; }
         public Boolean FirstRun { get; set; }
+        public Boolean RunAtStart { get; set; }
+        public Boolean LoadAtStart { get; set; }
 
         //Needed by Interface
         public string FileLocation { get; set; }
