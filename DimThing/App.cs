@@ -30,20 +30,29 @@ namespace DimThing
             keyHook.RegisterHotKey(AppConfigs.Configuration.IncreaseDimness); //Increase Dimness    
             keyHook.RegisterHotKey(AppConfigs.Configuration.DecreaseDimness); //Decrease Dimness   
             keyHook.RegisterHotKey(AppConfigs.Configuration.ToggleMode); //Toggle Monitor Mode
+<<<<<<< HEAD
             
             //Select dimness percent in tray
             for(int i = 0; i < dimness/10; i++)
             {
                 tray.increaseDimness();
             }
+=======
+
+            //Load previous dimness from file
+            this.dimness = AppConfigs.Configuration.Dimness;
+            this.immersiveMode = AppConfigs.Configuration.ImmersiveMode;
+            this.immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;
+>>>>>>> origin/add-settings
 
             if (AppConfigs.Configuration.FirstRun)
             {
-                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 1;           
+                AppConfigs.Configuration.ImmersiveModeAllowed = Screen.AllScreens.Length > 1;
                 AppConfigs.Configuration.FirstRun = false;
                 AddApplicationToStartup();
             }
 
+<<<<<<< HEAD
             if (AppConfigs.Configuration.LoadAtStart)
             {
                 //Load previous dimness from file
@@ -57,6 +66,16 @@ namespace DimThing
             }
 
             immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;               
+=======
+            //Select dimness percent in tray
+            for (int i = 0; i < dimness; i+= 10)
+            {
+                tray.increaseDimness();                
+            }
+
+            tray.ImmersiveModeCheck(immersiveMode);                            
+            
+>>>>>>> origin/add-settings
             configureOverlays();
             updateOverlays();
         }        

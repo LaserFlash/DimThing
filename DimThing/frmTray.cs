@@ -11,14 +11,12 @@ namespace DimThing
     {
         private LinkedList<ToolStripMenuItem> dimAmounts;
         private LinkedListNode<ToolStripMenuItem> currentCheckedDimness;
-
-        public static App app;
+        public static App app;        
 
         public frmTray()
         {
             InitializeComponent();
             dimAmounts = new LinkedList<ToolStripMenuItem>();
-
             dimAmounts.AddFirst(menu99);
             dimAmounts.AddFirst(menu90);
             dimAmounts.AddFirst(menu80);
@@ -37,9 +35,6 @@ namespace DimThing
             app = new App(this);
 
             ImmersiveModeDisplaySet(app.ImmersiveModeAllowedSet());
-            
-            
-
         }
 
         public void ImmersiveModeDisplaySet(Boolean b)
@@ -150,6 +145,11 @@ namespace DimThing
         public void ToggleMode()
         {
             immersiveMode.Checked = !immersiveMode.Checked;
+        }
+
+        public void ImmersiveModeCheck(Boolean t)
+        {
+            immersiveMode.Checked = t;
         }
     }
 
