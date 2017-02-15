@@ -127,12 +127,17 @@ namespace DimThing
             _registeredHotkeys.Add(hotKeys, _currentId);
             // register the hot key.
             if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)hotKeys.Modifier, (uint)hotKeys.Keys))
-                throw new InvalidOperationException("Couldn’t register the hot key.");
-
+            {
+                Form box = new Form();
+                MessageBox.Show("Hot Key already in use, try setting a new one", "HotKey Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+               
+         
+            }
+                
             return true;
             
         }
-
+         
         public bool UnRegisterHotKey(HotKeys hotkey)
         {
             int id;
