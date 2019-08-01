@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace DimThing.Framework.Configuration
 {
@@ -72,7 +72,7 @@ namespace DimThing.Framework.Configuration
             if (!Directory.Exists(SRoot))
             {
                 Directory.CreateDirectory(SRoot);
-            }                   
+            }
             var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
             using (var writer = new JsonTextWriter(new StreamWriter(GetFilePath<T>())))
             {

@@ -1,7 +1,5 @@
 using System;
 using System.Windows.Forms;
-using DimThing.Framework;
-using DimThing.Framework.Configuration;
 
 namespace DimThing
 {
@@ -15,7 +13,7 @@ namespace DimThing
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTray());            
+            Application.Run(new frmTray());
         }
     }
 }

@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using DimThing.Framework;
 using DimThing.Framework.Configuration;
-using DimThing.Framework;
+using System;
+using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace DimThing
 {
     public partial class frmSettings : Form
     {
         private frmTray tray;
-        
+
         public frmSettings(frmTray t)
         {
             tray = t;
             InitializeComponent();
 
-            hotkeyTextBoxIncrease.KeyDown += (sender, args) => SetHotKey(args,hotkeyTextBoxIncrease);
+            hotkeyTextBoxIncrease.KeyDown += (sender, args) => SetHotKey(args, hotkeyTextBoxIncrease);
             hotkeyTextBoxDecrease.KeyDown += (sender, args) => SetHotKey(args, hotkeyTextBoxDecrease);
             hotkeyTextBoxImmersiveMode.KeyDown += (sender, args) => SetHotKey(args, hotkeyTextBoxImmersiveMode);
 
@@ -42,7 +38,7 @@ namespace DimThing
         {
             HotKeys.ModifierKeys modifierKeys = 0;
             String displayString = "";
-            foreach(var pressedModifier in KeyboardWindowsAPI.GetPressedModifiers())
+            foreach (var pressedModifier in KeyboardWindowsAPI.GetPressedModifiers())
             {
                 if ((pressedModifier & Keys.Modifiers) == Keys.Control)
                 {
@@ -69,7 +65,7 @@ namespace DimThing
             var normalPressedKeys = KeyboardWindowsAPI.GetNormalPressedKeys();
             var key = normalPressedKeys.FirstOrDefault();
 
-            if(key == Keys.None)
+            if (key == Keys.None)
             {
                 t.Text = $"{displayString}";
                 t.ForeColor = Color.Red;
@@ -100,8 +96,8 @@ namespace DimThing
         {
             AppConfigs.Configuration.ImmersiveModeAllowed = immersiveModeCheckBox.Checked;
             frmTray.app.immersiveModeAllowedSet(immersiveModeCheckBox.Checked);
-            tray.ImmersiveModeDisplaySet(immersiveModeCheckBox.Checked);            
-            
+            tray.ImmersiveModeDisplaySet(immersiveModeCheckBox.Checked);
+
         }
 
         private void loadPrevious_CheckedChanged(object sender, EventArgs e)
@@ -116,7 +112,8 @@ namespace DimThing
             if (runStartup.Checked)
             {
                 App.AddApplicationToStartup();
-            }else
+            }
+            else
             {
                 App.RemoveApplicationFromStartup();
             }

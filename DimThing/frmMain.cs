@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 
 
@@ -40,9 +40,9 @@ namespace DimThing
                 primary = value;
             }
         }
-        
 
-#region Enum
+
+        #region Enum
         public enum GWL
         {
             ExStyle = -20
@@ -59,9 +59,9 @@ namespace DimThing
             ColorKey = 0x1,
             Alpha = 0x2
         }
-#endregion
+        #endregion
 
-#region DLLImport
+        #region DLLImport
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
         public static extern int GetWindowLong(IntPtr hWnd, GWL nIndex);
 
@@ -70,7 +70,7 @@ namespace DimThing
 
         [DllImport("user32.dll", EntryPoint = "SetLayeredWindowAttributes")]
         public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, int crKey, byte alpha, LWA dwFlags);
-#endregion
+        #endregion
 
 
         protected override void OnShown(EventArgs e)
@@ -83,7 +83,7 @@ namespace DimThing
         {
             InitializeComponent();
             timerPhase.Tick += timerPhase_Tick;
-        }        
+        }
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -113,7 +113,7 @@ namespace DimThing
             int wl = GetWindowLong(this.Handle, GWL.ExStyle);
             wl = wl | 0x80000 | 0x20;
             SetWindowLong(this.Handle, GWL.ExStyle, wl);
-            
+
             byte value = (byte)(calculatedValue * 255);
             SetLayeredWindowAttributes(this.Handle, 0x128, value, LWA.Alpha);
 

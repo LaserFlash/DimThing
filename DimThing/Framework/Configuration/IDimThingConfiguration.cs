@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace DimThing.Framework.Configuration
 {
@@ -12,7 +11,7 @@ namespace DimThing.Framework.Configuration
         Boolean ImmersiveMode { get; set; }
         Boolean ImmersiveModeAllowed { get; set; }
         Boolean FirstRun { get; set; }
-        Boolean RunAtStart { get; set; } 
+        Boolean RunAtStart { get; set; }
         Boolean LoadAtStart { get; set; }
     }
 }

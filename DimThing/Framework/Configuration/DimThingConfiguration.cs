@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
 
 namespace DimThing.Framework.Configuration
 {
     class DimThingConfiguration : IDimThingConfiguration
     {
         public DimThingConfiguration()
-        {           
+        {
             Dimness = 0;
             IncreaseDimness = new HotKeys(Keys.Oemplus, HotKeys.ModifierKeys.Alt);
             DecreaseDimness = new HotKeys(Keys.OemMinus, HotKeys.ModifierKeys.Alt);
@@ -33,8 +32,8 @@ namespace DimThing.Framework.Configuration
         public string FileLocation { get; set; }
 
         public void Save()
-        {            
-            {                
+        {
+            {
                 ConfigurationManager.SaveConfiguration(this);
             }
         }

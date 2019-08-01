@@ -1,9 +1,7 @@
-using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-
-using DimThing.Framework;
 using DimThing.Framework.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace DimThing
 {
@@ -11,7 +9,7 @@ namespace DimThing
     {
         private LinkedList<ToolStripMenuItem> dimAmounts;
         private LinkedListNode<ToolStripMenuItem> currentCheckedDimness;
-        public static App app;        
+        public static App app;
 
         public frmTray()
         {

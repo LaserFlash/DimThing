@@ -1,10 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-
-using DimThing.Framework;
+﻿using DimThing.Framework;
 using DimThing.Framework.Configuration;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace DimThing
 {
@@ -19,7 +18,7 @@ namespace DimThing
         private Boolean immersiveModeAllowed;
         private Boolean immersiveMode;
         private float dimness = 0;
-        KeyboardHook keyHook = new KeyboardHook();       
+        KeyboardHook keyHook = new KeyboardHook();
 
         public App(frmTray o)
         {
@@ -30,7 +29,7 @@ namespace DimThing
             keyHook.RegisterHotKey(AppConfigs.Configuration.IncreaseDimness); //Increase Dimness    
             keyHook.RegisterHotKey(AppConfigs.Configuration.DecreaseDimness); //Decrease Dimness   
             keyHook.RegisterHotKey(AppConfigs.Configuration.ToggleMode); //Toggle Monitor Mode
-            
+
 
             if (AppConfigs.Configuration.FirstRun)
             {
@@ -51,19 +50,19 @@ namespace DimThing
                 this.immersiveMode = false;
             }
 
-            immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;  
-                         
+            immersiveModeAllowed = AppConfigs.Configuration.ImmersiveModeAllowed;
+
             //Select dimness percent in tray
-            for (int i = 0; i < dimness; i+= 10)
+            for (int i = 0; i < dimness; i += 10)
             {
-                tray.increaseDimness();                
+                tray.increaseDimness();
             }
 
-            tray.ImmersiveModeCheck(immersiveMode);                            
-            
+            tray.ImmersiveModeCheck(immersiveMode);
+
             configureOverlays();
             updateOverlays();
-        }        
+        }
 
         public void changeDimness(float val)
         {
@@ -110,7 +109,7 @@ namespace DimThing
             //Decrease Percent of Dimming.
             if (e.HotKeys == AppConfigs.Configuration.DecreaseDimness)
             {
-                
+
                 if (dimness == 0) return;
                 if (dimness == 99)
                 {
@@ -119,7 +118,7 @@ namespace DimThing
                 else
                 {
                     changeDimness(dimness - 10);
-                }                
+                }
                 tray.decreaseDimness();
             }
 
@@ -136,7 +135,7 @@ namespace DimThing
         private void configureOverlays()
         {
             // remove exiting overlays
-            clearOverlays();                
+            clearOverlays();
 
             // add screens if they don't already exist
             if (overlays.Count != Screen.AllScreens.Length)
@@ -206,12 +205,12 @@ namespace DimThing
             }
 
             AppConfigs.Configuration.Save();
-            return true;      
+            return true;
 
         }
 
         public void exit()
-        {            
+        {
             // remove all overlays
             clearOverlays();
             //Remove Hotkey Hooks
@@ -247,7 +246,7 @@ namespace DimThing
             return immersiveModeAllowed;
         }
 
-        
+
         public static void RemoveApplicationFromStartup()
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))

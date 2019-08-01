@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
+﻿using DimThing.Framework;
+using System;
 using System.Collections.Generic;
-using DimThing.Framework;
-using DimThing.Framework.Configuration;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace DimThing
 {
@@ -65,7 +64,7 @@ namespace DimThing
                 {
                     // get the keys.
                     var key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
-                    var modifier = (HotKeys.ModifierKeys) (ConvertLParam(m.LParam) & 0xFFFF);                  
+                    var modifier = (HotKeys.ModifierKeys)(ConvertLParam(m.LParam) & 0xFFFF);
 
                     // invoke the event to notify the parent.
                     if (KeyPressed != null)
@@ -129,15 +128,15 @@ namespace DimThing
             if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)hotKeys.Modifier, (uint)hotKeys.Keys))
             {
                 Form box = new Form();
-                MessageBox.Show("Hot Key already in use, try setting a new one", "HotKey Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-               
-         
+                MessageBox.Show("Hot Key already in use, try setting a new one", "HotKey Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
             }
-                
+
             return true;
-            
+
         }
-         
+
         public bool UnRegisterHotKey(HotKeys hotkey)
         {
             int id;
@@ -166,7 +165,7 @@ namespace DimThing
 
         #endregion
     }
-       
+
     /// Event Args for the event that is fired after the hot key has been pressed.    
     public class KeyPressedEventArgs : EventArgs
     {
